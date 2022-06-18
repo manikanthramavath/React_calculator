@@ -1,24 +1,63 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import Button from './Button';
 
 function App() {
+const [calc,setcalc]=useState("");
+const [result,setResult]=useState("");
+const   ops=['/','*','+','-'];
+const Updatecalc=value=>{
+  if(
+    ops.includes(value)&&calc===''||
+    ops.includes(value  )&&ops.includes(calc.slice(-1))
+
+  ){return;}
+  setcalc(calc+value);
+  if (!ops.includes(value)){
+    setResult(eval(calc+value));
+  }
+}
+const calcualte =()=>{
+  setcalc(eval(calc).toString());
+}
+const deletelast=()=>{
+  if(calc==''){
+    return;
+  }
+  const value=calc.slice(0,-1);
+  setcalc(value);
+}
   return (
+  <>
+
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="calculator">
+        <div className="display">
+          {result?<span>({result})</span>:''}&nbsp;
+          {calc||"0"}
+        </div>
+        <div className="operators">
+          <button onClick={()=>Updatecalc('+')}>+</button>
+          <button onClick={()=>Updatecalc('*')}>*</button>
+          <button onClick={()=>Updatecalc('-')}>-</button>
+          <button onClick={()=>Updatecalc('/')}>/</button>
+          <button onClick={deletelast}>DEl</button>
+        </div>
+        <div className="digits">
+          <button onClick={()=>Updatecalc('1')}>1</button>
+          <button onClick={()=>Updatecalc('2')}>2</button>
+          <button onClick={()=>Updatecalc('3')}>3</button>
+          <button onClick={()=>Updatecalc('4')}>4</button>
+          <button onClick={()=>Updatecalc('5')}>5</button>
+          <button onClick={()=>Updatecalc('6')}>6</button>
+          <button onClick={()=>Updatecalc('7')}>7</button>
+          <button onClick={()=>Updatecalc('8')}>8</button>
+          <button onClick={()=>Updatecalc('9')}>9</button>
+          <button onClick={()=>Updatecalc('0')}>0</button>
+          <button onClick={()=>Updatecalc('.')}>.</button>
+          <button onClick={calcualte}>=</button>
+        </div>
+      </div>
+      </div></>
   );
 }
 
